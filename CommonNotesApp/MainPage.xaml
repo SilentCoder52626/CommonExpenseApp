@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CommonNotesApp.MainPage"
+             xmlns:viewmodel="clr-namespace:CommonNotesApp.ViewModel"
+             x:DataType="viewmodel:MainViewModel">
+
+    <Grid RowDefinitions="100,Auto,*"
+          ColumnDefinitions=".50*,.25*,.25*"
+          Padding="10"
+          RowSpacing="10"
+          ColumnSpacing="10">
+
+        <Image Grid.ColumnSpan="2"
+               Source="dotnet_bot.png">
+
+        </Image>
+        <Grid Padding="0,5" Grid.Column="2">
+            <HorizontalStackLayout BackgroundColor="Red" HorizontalOptions="Center" VerticalOptions="Center" Padding="5">
+
+                <Label Text="Rs. " HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontSize="24" TextColor="Black" />
+                <Label Text="{Binding Total}" HorizontalTextAlignment="Center"  VerticalTextAlignment="Center" FontSize="24" TextColor="Black" />
+            </HorizontalStackLayout>
+
+        </Grid>
+
+        <Entry Placeholder="Enter Item" Grid.Row="1" Text="{Binding Item}">
+
+        </Entry>
+        <Entry Placeholder="Enter Price" Grid.Row="1" Grid.Column="1" Text="{Binding Price}" Keyboard="Numeric">
+
+        </Entry>
+
+        <Button Text="Add" Grid.Row="1" Grid.Column="2" Command="{Binding AddCommand}" >
+
+        </Button>
+
+        <CollectionView Grid.Row="2" Grid.ColumnSpan="3"  ItemsSource="{Binding Items}">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type viewmodel:MainModel}">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete" BackgroundColor="Red" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}},Path=DeleteCommand}"
+                                           CommandParameter="{Binding Id}"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Grid Padding="0,5">
+                            <Frame BackgroundColor="Gray">
+                                <Label Text="{Binding Display}" FontSize="24" TextColor="White" BackgroundColor="Gray" />
+                            </Frame>
+                        </Grid>
+
+                    </SwipeView>
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <ContentView>
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" >
+                        <Label Text="No data found." FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                        <Label Text="Try adding new item."/>
+
+                    </VerticalStackLayout>
+                </ContentView>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+
+
+    </Grid>
+</ContentPage>
